@@ -39,8 +39,8 @@ foreach poll of global POLL{
 		qui egen month_avg=mean(predicted_value), by(month_R coordinate)
 		qui gen log_month_avg=log(month_avg)
 		/////////////END OF PROCESSING///////////////
-		duplicates drop month_R coordinate,force
-		keep month_R D shenou_dummy month_avg log_month_avg
+		duplicates drop month_R,force
+		keep month_R D shenou_dummy month_avg log_month_avg coordinate
 		
 		qui tw (lpoly month_avg month_R if shenou_dummy==1 & D==0)(lpoly month_avg month_R if shenou_dummy==1 & D==1)(lpoly month_avg month_R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)), ///
 		legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_month_avg S shenou dummy D date dummy")
