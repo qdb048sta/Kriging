@@ -23,6 +23,26 @@ foreach poll of global POLL{
 		qui gen monthly=year+"m"+str_month
 		qui gen month_R=monthly(monthly,"YM")
 			
+		if "`poll'"=="PM2.5"{
+			gen R2006=date("20060101","YMD")
+			drop if R<R2006
+			drop R2006
+			}
+		if "`poll'"=="PM10"{
+			gen R2006=date("20000101","YMD")
+			drop if R<R2006
+			drop R2006
+			}
+		if "`poll'"=="SO2"{
+			gen R2006=date("20000101","YMD")
+			drop if R<R2006
+			drop R2006
+			}
+		if "`poll'"=="NO2"{
+			gen R2006=date("20000101","YMD")
+			drop if R<R2006
+			drop R2006
+			}
 			//generate dummy variables
 		qui gen D=1 if month_R>monthly("2007m9","YM")
 		qui replace D=0 if missing(D)
@@ -43,9 +63,9 @@ foreach poll of global POLL{
 		keep month_R D shenou_dummy month_avg log_month_avg coordinate
 		
 		qui tw (lpoly month_avg month_R if shenou_dummy==1 & D==0)(lpoly month_avg month_R if shenou_dummy==1 & D==1)(lpoly month_avg month_R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_month_avg S shenou dummy D date dummy") xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou.png", as(png) name("Graph") quality(100) 
+		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou_2000_2021.png", as(png) name("Graph") quality(100) 
 		qui tw(lpoly log_month_avg month_R if shenou_dummy==1 & D==0) (lpoly log_month_avg month_R if shenou_dummy==1 & D==1)(lpoly log_month_avg month_R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_month_avg S shenou dummy D date dummy")xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou.png", as(png) name("Graph") quality(100) 
+		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou_2000_2021.png", as(png) name("Graph") quality(100) 
 		clear
 		}
 }		
