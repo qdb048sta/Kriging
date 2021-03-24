@@ -3,7 +3,7 @@ global POLL="SO2 PM2.5 PM10 NO2"
 foreach poll of global POLL{
 	global TYPE "avg max"
 	foreach type of global TYPE{
-		use "`poll'_`type'_kriging_2000_2021.dta"
+		use "`poll'_`type'_kriging_2000_2021.dta",clear
 		/////////////////THIS PART IS PROCESSING RAW DATA////////////////////////
 		geodist 25.1272 121.8156 y x,generate(num_distance_shenou)
 		geodist 24.1618378 120.6446744 y x, generate(num_distance_taichung)
@@ -44,9 +44,9 @@ foreach poll of global POLL{
 		
 		qui tw (lpoly month_avg month_R if shenou_dummy==1 & D==0)(lpoly month_avg month_R if shenou_dummy==1 & D==1)(lpoly month_avg month_R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)), ///
 		legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_month_avg S shenou dummy D date dummy")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou.jpg", as(jpg) name("Graph") quality(100)
+		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou.pnf", as(png) name("Graph") quality(100)
 		qui tw(lpoly log_month_avg month_R if shenou_dummy==1 & D==0) (lpoly log_month_avg month_R if shenou_dummy==1 & D==1)(lpoly log_month_avg month_R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_month_avg S shenou dummy D date dummy")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou.jpg", as(jpg) name("Graph") quality(100)
+		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou.pnf", as(png) name("Graph") quality(100)
 		clear
 		}
 }		
