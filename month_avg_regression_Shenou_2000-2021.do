@@ -11,7 +11,7 @@ cap log c
 
 cd "D:\User_Data\Desktop\kriging"
 display "---------------------Daily `v' of `poll'------------------------------"
-use "D:\User_Data\Desktop\kriging\\`poll'_`v'_kriging_2000_2021.dta" ,clear
+use "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
 
 //filter out only within target <=50km
 geodist 25.1272 121.8156 y x,generate(num_distance_shenou)
