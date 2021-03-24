@@ -32,15 +32,26 @@ qui gen month_R=monthly(monthly,"YM")
 
 //eliminate outlier
 if "`poll'"=="PM2.5"{
-gen R2006=date("20060101","YMD")
-drop if R<R2006
-drop R2006
+	gen R2006=date("20060101","YMD")
+	drop if R<R2006
+	drop R2006
 }
-else{
-gen R2000=date("20000101",YMD")
-drop if R<R2000
-drop R2000
+if "`poll'"=="PM10"{
+	gen R2006=date("20000101","YMD")
+	drop if R<R2006
+	drop R2006
 }
+if "`poll'"=="SO2"{
+	gen R2006=date("20000101","YMD")
+	drop if R<R2006
+	drop R2006
+}
+if "`poll'"=="NO2"{
+	gen R2006=date("20000101","YMD")
+	drop if R<R2006
+	drop R2006
+}
+
 
 egen p1p=pctile(predicted_value),p(1)
 egen p99p=pctile(predicted_value),p(99)
