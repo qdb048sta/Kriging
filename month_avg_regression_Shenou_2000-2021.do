@@ -83,7 +83,7 @@ label variable coordinate "string coordinate"
 
 
 keep month_avg log_month_avg month_R D Dshenou shenou_dummy coordinate
-duplicates drop month_R, force  
+duplicates drop month_R coordinate, force  
 regress month_avg month_R D Dshenou shenou_dummy,absorb(coordinate)
 regress log_month_avg month_R D Dshenou shenou_dummy,absorb(coordinate)
 
