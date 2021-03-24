@@ -15,6 +15,7 @@ foreach poll of global POLL{
 		egen p99p=pctile(predicted_value),p(99)
 		drop if predicted_value<p1p | predicted_value>p99p
 		//handling date and month
+		tostring(date),replace
 		qui gen year=substr(date,1,4)
 		qui gen R=date(date,"YMD")
 		qui gen month=month(R)
