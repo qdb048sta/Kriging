@@ -1,10 +1,10 @@
-cd "D:\User_Data\Desktop\kan-2\kriging"
+cd "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset"
 global POLL="SO2 PM2.5 PM10 NO2"
 foreach poll of global POLL{
 	global TYPE "avg max"
 	foreach type of global TYPE{
 
-		use "`poll'_`type'_with_date_combined.dta"
+		use "`poll'_`type'_kriging_2000_2021.dta"
 		/////////////////THIS PART IS PROCESSING RAW DATA////////////////////////
 		geodist 25.1272 121.8156 y x,generate(num_distance_shenou)
 		geodist 24.1618378 120.6446744 y x, generate(num_distance_taichung)
@@ -37,12 +37,10 @@ foreach poll of global POLL{
 
 		//////////////////////END OF PROCESSING///////////////
 		keep R D shenou_dummy predicted_value log_predicted_value
-		save "`poll'_`type'_daily_unique_graphing.dta",replace
-		qui tw (lpoly predicted_value R if shenou_dummy==1 & D==0)(lpoly predicted_value R if shenou_dummy==1 & D==1)(lpoly predicted_value R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly predicted_value R if shenou_dummy==0 & D==1,lpattern(dash_dot)), ///
-		legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_daily S shenou dummy D date dummy")
-		graph export "D:\\User_Data\\Desktop\\kan-2\\`poll'_`type'_daily_shenou.jpg", as(jpg) name("Graph") quality(100)
-		qui tw(lpoly log_month_avg R if shenou_dummy==1 & D==0) (lpoly log_month_avg R if shenou_dummy==1 & D==1)(lpoly log_month_avg R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_daily S shenou dummy D date dummy")
-		graph export "D:\\User_Data\\Desktop\\kan-2\\`poll'_`type'_daily_shenou.jpg", as(jpg) name("Graph") quality(100)
+		qui tw (lpoly predicted_value R if shenou_dummy==1 & D==0)(lpoly predicted_value R if shenou_dummy==1 & D==1)(lpoly predicted_value R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly predicted_value R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_daily S shenou dummy D date dummy") xlabel(14610 "20000101"  16071 "20040101"  17532 "20080101"  18993 "20120101"   20454 "20160101" 21915 "20200101")
+		graph export "D:\User_Data\Desktop\kriging\Shenou\result\\`poll'_`type'_daily_shenou.jpg", as(jpg) name("Graph") quality(100)
+		qui tw(lpoly log_month_avg R if shenou_dummy==1 & D==0) (lpoly log_month_avg R if shenou_dummy==1 & D==1)(lpoly log_month_avg R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_daily S shenou dummy D date dummy") xlabel(14610 "20000101"  16071 "20040101"  17532 "20080101"  18993 "20120101"   20454 "20160101" 21915 "20200101")
+		graph export "D:\User_Data\Desktop\kriging\Shenou\result\\`poll'_`type'_daily_shenou.jpg", as(jpg) name("Graph") quality(100)
 		clear
 		}
 }		
