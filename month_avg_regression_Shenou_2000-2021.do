@@ -1,17 +1,17 @@
 clear
 local POLL="PM2.5 PM10 SO2 NO2"
 local value="avg max"
-log using "D:\User_Data\Desktop\kriging\\month_avg_regression_result_without_outlier_2000-2021.log", replace
-foreach poll of local POLL{
-    foreach v of local value{
-clear
+cd "D:\User_Data\Desktop\kriging"
+log using "D:\User_Data\Desktop\kriging\Shenou\result\month_reg_r_2000-2016.log",replace
 set more off
 set linesize 255
 cap log c
+foreach poll of local POLL{
+    foreach v of local value{
 
-cd "D:\User_Data\Desktop\kriging"
+
 display "---------------------Daily `v' of `poll'------------------------------"
-use "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
+use "D:\User_Data\Desktop\kriging\Shenou\data\R_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
 
 //filter out only within target <=50km
 geodist 25.1272 121.8156 y x,generate(num_distance_shenou)
@@ -53,9 +53,9 @@ if "`poll'"=="NO2"{
 }
 
 
-egen p1p=pctile(predicted_value),p(1)
-egen p99p=pctile(predicted_value),p(99)
-drop if predicted_value<p1p | predicted_value>p99p
+egen p1p=pctile(var1pred),p(1)
+egen p99p=pctile(var1pred),p(99)
+drop if var1pred<p1p | var1pred>p99p
 drop p1p p99p
 
 	//generate dummy variables
@@ -71,9 +71,9 @@ qui egen coordinate=concat(string_x string_y),punct(" ")
 
 //get monthly average
 
-qui egen month_avg=mean(predicted_value), by(month_R coordinate)
+qui egen month_avg=mean(var1pred), by(month_R coordinate)
 qui gen log_month_avg=log(month_avg)
-//qui gen log_predicted_value=log(predicted_value)
+//qui gen log_var1pred=log(var1pred)
 //Label each variable
 //label variable R "date since 2007/9/30"
 label variable num_distance_shenou "distance to shenou in km"
