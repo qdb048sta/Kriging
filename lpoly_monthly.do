@@ -1,4 +1,4 @@
-cd "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset"
+cd "D:\User_Data\Desktop\kriging\Shenou\data\R_kriging_data\dataset"
 global POLL="SO2 PM2.5 PM10 NO2"
 foreach poll of global POLL{
 	global TYPE "avg max"
@@ -11,9 +11,9 @@ foreach poll of global POLL{
 		keep if num_distance_shenou<=50 | num_distance_taichung<=50 | num_distance_kaohsiung<=50
 
 		//eliminate outlier
-		egen p1p=pctile(predicted_value),p(1)
-		egen p99p=pctile(predicted_value),p(99)
-		drop if predicted_value<p1p | predicted_value>p99p
+		egen p1p=pctile(var1pred),p(1)
+		egen p99p=pctile(var1pred),p(99)
+		drop if var1pred<p1p | var1pred>p99p
 		//handling date and month
 		tostring(date),replace
 		qui gen year=substr(date,1,4)
@@ -56,15 +56,15 @@ foreach poll of global POLL{
 
 		//get monthly average
 
-		qui egen month_avg=mean(predicted_value), by(month_R coordinate)
+		qui egen month_avg=mean(var1pred), by(month_R coordinate)
 		qui gen log_month_avg=log(month_avg)
 		/////////////END OF PROCESSING///////////////
 		duplicates drop month_R coordinate,force
 		
 		qui tw (lpoly month_avg month_R if shenou_dummy==1 & D==0)(lpoly month_avg month_R if shenou_dummy==1 & D==1)(lpoly month_avg month_R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_month_avg S shenou dummy D date dummy") xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou_2000_2021.png", as(png) name("Graph") 
+		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou_2000_2021_R_kriging.png", as(png) name("Graph") 
 		qui tw(lpoly log_month_avg month_R if shenou_dummy==1 & D==0) (lpoly log_month_avg month_R if shenou_dummy==1 & D==1)(lpoly log_month_avg month_R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_month_avg S shenou dummy D date dummy")xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou_2000_2021.png", as(png) name("Graph") 
+		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou_2000_2021_R_kriging.png", as(png) name("Graph") 
 		clear
 		}
 }		
