@@ -2,7 +2,7 @@ clear
 local POLL="PM2.5 PM10 SO2 NO2"
 local value="avg max"
 cd "D:\User_Data\Desktop\kriging"
-log using "D:\User_Data\Desktop\kriging\Shenou\result\daily_reg_2000-2016.log",replace
+log using "D:\User_Data\Desktop\kriging\Shenou\result\daily_reg_R_2000-2016.log",replace
 set more off
 set linesize 255
 cap log c
@@ -11,7 +11,7 @@ foreach poll of local POLL{
 
 
 display "---------------------Daily `v' of `poll'------------------------------"
-use "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
+use "D:\User_Data\Desktop\kriging\Shenou\data\R_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
 
 //filter out only within target <=50km
 geodist 25.1272 121.8156 y x,generate(num_distance_shenou)
