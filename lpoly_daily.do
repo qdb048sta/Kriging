@@ -1,4 +1,4 @@
-cd "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset"
+cd "D:\User_Data\Desktop\kriging\Shenou\data\R_kriging_data\dataset"
 global POLL="SO2 PM2.5 PM10 NO2"
 foreach poll of global POLL{
 	global TYPE "avg max"
@@ -12,9 +12,9 @@ foreach poll of global POLL{
 		keep if num_distance_shenou<=50 | num_distance_taichung<=50 | num_distance_kaohsiung<=50
 
 		//eliminate outlier
-		egen p1p=pctile(predicted_value),p(1)
-		egen p99p=pctile(predicted_value),p(99)
-		drop if predicted_value<p1p | predicted_value>p99p
+		egen p1p=pctile(var1pred),p(1)
+		egen p99p=pctile(var1pred),p(99)
+		drop if var1pred<p1p | var1pred>p99p
 		
 		//handling date and month
 		tostring(date),replace
@@ -32,14 +32,14 @@ foreach poll of global POLL{
 		qui gen string_y=string(y)
 		qui egen coordinate=concat(string_x string_y),punct(" ")
 
-		//get log_predicted_value
-		qui gen log_predicted_value=log(predicted_value)
+		//get log_var1pred
+		qui gen log_var1pred=log(var1pred)
 
 		//////////////////////END OF PROCESSING///////////////
-		keep R D shenou_dummy predicted_value log_predicted_value
-		qui tw (lpoly predicted_value R if shenou_dummy==1 & D==0)(lpoly predicted_value R if shenou_dummy==1 & D==1)(lpoly predicted_value R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly predicted_value R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_daily S shenou dummy D date dummy") xlabel(14610 "20000101"  16071 "20040101"  17532 "20080101"  18993 "20120101"   20454 "20160101" 21915 "20200101")
+		keep R D shenou_dummy var1pred log_var1pred
+		qui tw (lpoly var1pred R if shenou_dummy==1 & D==0)(lpoly var1pred R if shenou_dummy==1 & D==1)(lpoly var1pred R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly var1pred R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_daily S shenou dummy D date dummy") xlabel(14610 "20000101"  16071 "20040101"  17532 "20080101"  18993 "20120101"   20454 "20160101" 21915 "20200101")
 		graph export "D:\User_Data\Desktop\kriging\Shenou\result\\`poll'_`type'_daily_shenou.png", as(png) name("Graph")
-		qui tw(lpoly log_predicted_value R if shenou_dummy==1 & D==0) (lpoly log_predicted_value R if shenou_dummy==1 & D==1)(lpoly log_predicted_value R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_predicted_value R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_daily S shenou dummy D date dummy") xlabel(14610 "20000101"  16071 "20040101"  17532 "20080101"  18993 "20120101"   20454 "20160101" 21915 "20200101")
+		qui tw(lpoly log_var1pred R if shenou_dummy==1 & D==0) (lpoly log_var1pred R if shenou_dummy==1 & D==1)(lpoly log_var1pred R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_var1pred R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_daily S shenou dummy D date dummy") xlabel(14610 "20000101"  16071 "20040101"  17532 "20080101"  18993 "20120101"   20454 "20160101" 21915 "20200101")
 		graph export "D:\User_Data\Desktop\kriging\Shenou\result\\`poll'_`type'_daily_log_shenou.png", as(png) name("Graph")
 		clear
 		}
