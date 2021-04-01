@@ -30,26 +30,54 @@ qui tostring(month),gen(str_month)
 qui gen monthly=year+"m"+str_month
 qui gen month_R=monthly(monthly,"YM")
 
-//eliminate outlier
+//eliminate outlier and restrict date
 if "`poll'"=="PM2.5"{
 	gen R2006=date("20060101","YMD")
+	gen R2011=date("20110930","YMD")
+	gen R2003=date("20030930","YMD")
 	drop if R<R2006
+	drop if R>2011
+	drop if R<2003
+	
 	drop R2006
+	drop R2011
+	drop R2003
 }
 if "`poll'"=="PM10"{
 	gen R2006=date("20000101","YMD")
+	gen R2011=date("20110930","YMD")
+	gen R2003=date("20030930","YMD")
 	drop if R<R2006
+	drop if R>2011
+	drop if R<2003
+	
 	drop R2006
+	drop R2011
+	drop R2003
 }
 if "`poll'"=="SO2"{
 	gen R2006=date("20000101","YMD")
+	gen R2011=date("20110930","YMD")
+	gen R2003=date("20030930","YMD")
 	drop if R<R2006
+	drop if R>2011
+	drop if R<2003
+	
 	drop R2006
+	drop R2011
+	drop R2003
 }
 if "`poll'"=="NO2"{
 	gen R2006=date("20000101","YMD")
+	gen R2011=date("20110930","YMD")
+	gen R2003=date("20030930","YMD")
 	drop if R<R2006
+	drop if R>2011
+	drop if R<2003
+	
 	drop R2006
+	drop R2011
+	drop R2003
 }
 
 
