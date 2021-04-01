@@ -2,7 +2,7 @@ clear
 local POLL="PM2.5 PM10 SO2 NO2"
 local value="avg max"
 cd "D:\User_Data\Desktop\kriging"
-log using "D:\User_Data\Desktop\kriging\Shenou\result\month_reg_r_2000-2016.log",replace
+log using "D:\User_Data\Desktop\kriging\Shenou\result\month_reg_2003-2011.log",replace
 set more off
 set linesize 255
 cap log c
@@ -11,7 +11,7 @@ foreach poll of local POLL{
 
 
 display "---------------------Daily `v' of `poll'------------------------------"
-use "D:\User_Data\Desktop\kriging\Shenou\data\R_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
+use "D:\User_Data\Desktop\kriging\Shenou\data\Python_kriging_data\dataset\\`poll'_`v'_kriging_2000_2021.dta" ,clear
 
 //filter out only within target <=50km
 geodist 25.1272 121.8156 y x,generate(num_distance_shenou)
@@ -36,8 +36,8 @@ if "`poll'"=="PM2.5"{
 	gen R2011=date("20110930","YMD")
 	gen R2003=date("20030930","YMD")
 	drop if R<R2006
-	drop if R>2011
-	drop if R<2003
+	drop if R>R2011
+	drop if R<R2003
 	
 	drop R2006
 	drop R2011
@@ -48,8 +48,8 @@ if "`poll'"=="PM10"{
 	gen R2011=date("20110930","YMD")
 	gen R2003=date("20030930","YMD")
 	drop if R<R2006
-	drop if R>2011
-	drop if R<2003
+	drop if R>R2011
+	drop if R<R2003
 	
 	drop R2006
 	drop R2011
@@ -60,8 +60,8 @@ if "`poll'"=="SO2"{
 	gen R2011=date("20110930","YMD")
 	gen R2003=date("20030930","YMD")
 	drop if R<R2006
-	drop if R>2011
-	drop if R<2003
+	drop if R>R2011
+	drop if R<R2003
 	
 	drop R2006
 	drop R2011
@@ -72,8 +72,8 @@ if "`poll'"=="NO2"{
 	gen R2011=date("20110930","YMD")
 	gen R2003=date("20030930","YMD")
 	drop if R<R2006
-	drop if R>2011
-	drop if R<2003
+	drop if R>R2011
+	drop if R<R2003
 	
 	drop R2006
 	drop R2011
