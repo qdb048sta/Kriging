@@ -79,9 +79,9 @@ foreach poll of global POLL{
 		duplicates drop month_R coordinate,force
 		
 		qui tw (lpoly month_avg month_R if shenou_dummy==1 & D==0)(lpoly month_avg month_R if shenou_dummy==1 & D==1)(lpoly month_avg month_R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_month_avg S shenou dummy D date dummy") xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou_2003_2011_Python_kriging.png", as(png) name("Graph") 
+		graph export "D:\\Google 雲端硬碟\\result\\`poll'_`type'_month_avg_shenou_2003_2011_Python_kriging.png", as(png) name("Graph") 
 		qui tw(lpoly log_month_avg month_R if shenou_dummy==1 & D==0) (lpoly log_month_avg month_R if shenou_dummy==1 & D==1)(lpoly log_month_avg month_R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_month_avg S shenou dummy D date dummy")xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou_2003_2011_Python_kriging.png", as(png) name("Graph") 
+		graph export "D:\\Google 雲端硬碟\\result\\`poll'_`type'_log_month_avg_shenou_2003_2011_Python_kriging.png", as(png) name("Graph") 
 		clear
 		}
 }
@@ -167,9 +167,9 @@ foreach poll of global POLL{
 		duplicates drop month_R coordinate,force
 		
 		qui tw (lpoly month_avg month_R if shenou_dummy==1 & D==0)(lpoly month_avg month_R if shenou_dummy==1 & D==1)(lpoly month_avg month_R if shenou_dummy==0 & D==0,lpattern(dash_dot))(lpoly month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_month_avg S shenou dummy D date dummy") xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_month_avg_shenou_2003_2011_R_kriging.png", as(png) name("Graph") 
+		graph export "D:\\Google 雲端硬碟\\result\\`poll'_`type'_month_avg_shenou_2003_2011_R_kriging.png", as(png) name("Graph") 
 		qui tw(lpoly log_month_avg month_R if shenou_dummy==1 & D==0) (lpoly log_month_avg month_R if shenou_dummy==1 & D==1)(lpoly log_month_avg month_R if shenou_dummy==0 & D==0, lpattern(dash_dot)) (lpoly log_month_avg month_R if shenou_dummy==0 & D==1,lpattern(dash_dot)),legend(lab (1 "S==1 D==0") lab(2 "S==1 D==1") lab(3 "S==0 D==0") lab(4 "S==0 D==1")) title("`poll'_`type'_log_month_avg S shenou dummy D date dummy")xlabel(480 "2000m1"  528 "2004m1"  576 "2008m1"  624 "2012m1"   672 "2016m1" 720 "2020m1")
-		graph export "D:\\User_Data\\Desktop\\kriging\\Shenou\\result\\`poll'_`type'_log_month_avg_shenou_2003_2011_R_kriging.png", as(png) name("Graph") 
+		graph export "D:\\Google 雲端硬碟\\result\\`poll'_`type'_log_month_avg_shenou_2003_2011_R_kriging.png", as(png) name("Graph") 
 		clear
 		}
 }				
